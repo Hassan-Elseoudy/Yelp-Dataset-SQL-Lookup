@@ -97,48 +97,11 @@ Select Count(id),
 -- 5. List the cities with the most reviews in descending order:
 
 	--SQL code used to arrive at answer:
-    Select b.City, 
-        Count(r.id) 
-        from (business) b LEFT JOIN ( review) r
-        ON b.id = r.business_id
-        GROUP BY 1
-        ORDER BY 2 DESC;
+    SELECT SUM(review_count) AS reviews_total, City
+		FROM Business
+		GROUP BY City
+		ORDER BY reviews_total DESC
 	
-	
-	--Copy and Paste the Result Below: 
-    /*
-    +-----------------+-------------+
-    | b.City          | Count(r.id) |
-    +-----------------+-------------+
-    | Las Vegas       |         193 |
-    | Phoenix         |          65 |
-    | Toronto         |          51 |
-    | Scottsdale      |          37 |
-    | Henderson       |          30 |
-    | Tempe           |          28 |
-    | Pittsburgh      |          23 |
-    | Chandler        |          22 |
-    | Charlotte       |          21 |
-    | Montréal        |          18 |
-    | Madison         |          16 |
-    | Gilbert         |          13 |
-    | Mesa            |          13 |
-    | Cleveland       |          12 |
-    | North Las Vegas |           6 |
-    | Edinburgh       |           5 |
-    | Glendale        |           5 |
-    | Lakewood        |           5 |
-    | Cave Creek      |           4 |
-    | Champaign       |           4 |
-    | Markham         |           4 |
-    | North York      |           4 |
-    | Mississauga     |           3 |
-    | Surprise        |           3 |
-    | Avondale        |           2 |
-    +-----------------+-------------+
-    (Output limit exceeded, 25 of 362 total rows shown)
-    */
-
 -- 6. Find the distribution of star ratings to the business in the following cities:
 
 --i. Avon

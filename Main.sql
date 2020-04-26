@@ -537,3 +537,122 @@ SELECT  (name),
         AND (stars >= 4)
         AND (category = 'Restaurants')
         ORDER BY 4;
+
+
+--  2.	Group business based on the ones that are open and the ones that are closed. What differences can you find between the ones that are still open and the ones that are closed? 
+--  List at least two differences and the SQL code you used to arrive at your answer.
+		
+	-- i. 	Difference 1: The business that are still open have higher rating.
+    -- ii.	Difference 2: The business that are still open have more reviews.
+
+	-- SQL code used for analysis:
+
+SELECT  (name), 
+        (stars),
+        (category),
+        (review_count),
+        (hours),
+        (neighborhood)
+        FROM 
+        business b INNER JOIN category c ON b.id = c.business_id
+        INNER JOIN hours h ON h.business_id = c.business_id
+        WHERE (is_open = 1)
+        GROUP BY 1
+        ORDER BY 4 DESC;
+
+
+
+
+-- 3. For this last part of your analysis, you are going to choose the type of analysis you want to conduct on the Yelp dataset and are going to prepare the data for analysis.
+-- Ideas for analysis include: Parsing out keywords and business attributes for sentiment analysis, clustering businesses to find commonalities or anomalies between them, predicting the overall star rating for a business, predicting the number of fans a user will have, and so on. These are just a few examples to get you started, so feel free to be creative and come up with your own problem you want to solve. Provide answers, in-line, to all of the following:
+	
+-- i. Indicate the type of analysis you chose to do: (Which business do people review?)
+         
+         
+-- ii. Write 1-2 brief paragraphs on the type of data you will need for your analysis and why you chose that data:
+/*
+I want to know, What people like to review more? and In which city?
+*/
+                           
+                  
+iii. Output of your finished dataset:
+
+/*
++------------------------+----------------------+
+| category               | REVIEW NUMBER        |
++------------------------+----------------------+
+| Restaurants            |                    9 |
+| Food                   |                    6 |
+| American (Traditional) |                    4 |
+| Nightlife              |                    4 |
+| Barbeque               |                    3 |
+| Bars                   |                    3 |
+| Smokehouse             |                    3 |
+| Asian Fusion           |                    2 |
+| Breakfast & Brunch     |                    2 |
+| Chinese                |                    2 |
+| Ethnic Food            |                    2 |
+| Farmers Market         |                    2 |
+| Fruits & Veggies       |                    2 |
+| Malaysian              |                    2 |
+| Market Stalls          |                    2 |
+| Meat Shops             |                    2 |
+| Noodles                |                    2 |
+| Public Markets         |                    2 |
+| Seafood Markets        |                    2 |
+| Shopping               |                    2 |
+| Soup                   |                    2 |
+| Specialty Food         |                    2 |
+| Taiwanese              |                    2 |
+| Active Life            |                    1 |
+| Arts & Entertainment   |                    1 |
++------------------------+----------------------+
+*/
+
+/*
++-----------------+---------------+
+| city            | NUMBER_REVIEW |
++-----------------+---------------+
+| Las Vegas       |           193 |
+| Phoenix         |            65 |
+| Toronto         |            51 |
+| Scottsdale      |            37 |
+| Henderson       |            30 |
+| Tempe           |            28 |
+| Pittsburgh      |            23 |
+| Chandler        |            22 |
+| Charlotte       |            21 |
+| Montréal        |            18 |
+| Madison         |            16 |
+| Gilbert         |            13 |
+| Mesa            |            13 |
+| Cleveland       |            12 |
+| North Las Vegas |             6 |
+| Edinburgh       |             5 |
+| Glendale        |             5 |
+| Lakewood        |             5 |
+| Cave Creek      |             4 |
+| Champaign       |             4 |
+| Markham         |             4 |
+| North York      |             4 |
+| Mississauga     |             3 |
+| Surprise        |             3 |
+| Avondale        |             2 |
++-----------------+---------------+
+(Output limit exceeded, 25 of 67 total rows shown)
+*/
+         
+         
+iv. Provide the SQL code you used to create your final dataset:
+
+
+SELECT  category, COUNT(r.business_id) AS REVIEW_NUMBER
+        FROM review r INNER JOIN business b ON r.business_id = b.id
+        INNER JOIN category c ON r.business_id = c.business_id
+        GROUP BY 1
+        ORDER BY 2 DESC;
+
+SELECT  city, COUNT(r.id) AS NUMBER_REVIEW
+        FROM review r INNER JOIN business b ON r.business_id = b.id
+        GROUP BY 1
+        ORDER BY 2 DESC;
